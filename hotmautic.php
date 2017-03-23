@@ -23,6 +23,7 @@ $hotmart_first_name = $_POST['first_name'];
 $hotmart_last_name  = $_POST['last_name'];
 $hotmart_mail       = $_POST['email'];
 $hotmart_prod       = $_POST['prod'];
+$hotmart_billet_url = $_POST['billet_url'];   // ** Verificar se eh isso mesmo 
 
 foreach ($_POST as $key => $value) {
   $$key = $value;
@@ -46,7 +47,8 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_billet_url);
       break;
 
     case 'approved':
@@ -56,7 +58,8 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_billet_url);
       break;
 
     case 'refunded':
@@ -68,7 +71,8 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_billet_url);
       break;
 
     default:
@@ -81,14 +85,15 @@ else
   log_message("Chamada inválida - Acesso não liberado");
 }
 
-function post_form($base_url, $form_name, $form_id, $email, $first_name, $last_name, $prod) {
+function post_form($base_url, $form_name, $form_id, $email, $first_name, $last_name, $prod, $billet_url) {
   $content = http_build_query(array('mauticform[email]'     => $email,
                                     'mauticform[nome]'      => $first_name,
                                     'mauticform[sobrenome]' => $last_name,
                                     'mauticform[idprod]'    => $prod,
                                     'mauticform[formId]'    => $form_id,
                                     'mauticform[return]'    => '',
-                                    'mauticform[formName]'  => $form_name,));
+                                    'mauticform[formName]'  => $form_name,
+                                    'mauticform[billeturl]' => $billet_url));
 
   $context = stream_context_create(array('http' => array('method' => 'POST',
                                                          'content' => $content,)));
